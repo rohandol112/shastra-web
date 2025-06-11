@@ -91,7 +91,8 @@ router.post('/', validateContact, async (req, res) => {
 
     res.status(201).json({ 
       success: true, 
-      message: 'Message received successfully!' 
+      message: 'Message received successfully!',
+      data: { FirstName, LastName, Email, Phone, HackerrankId, Message }
     });
   } catch (err) {
     console.error('Contact form error:', err);
