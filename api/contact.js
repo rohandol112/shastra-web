@@ -59,8 +59,8 @@ const validateContact = [
   body('Message').trim().isLength({ min: 10 }).escape()
 ];
 
-// GET route for testing - FIXED: Remove '/contact' from here
-router.get('/contact', (req, res) => {
+// GET route for testing
+router.get('/', (req, res) => {
   res.json({ 
     message: 'Contact API is working!',
     endpoint: '/api/contact',
@@ -68,8 +68,8 @@ router.get('/contact', (req, res) => {
   });
 });
 
-// POST route for contact form - FIXED: Remove '/contact' from here
-router.post('/contact', validateContact, async (req, res) => {
+// POST route for contact form
+router.post('/', validateContact, async (req, res) => {
   try {
     console.log('Contact form submission received:', req.body);
     
