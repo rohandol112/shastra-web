@@ -1,10 +1,10 @@
-// Express backend for Contact Us form with MongoDB
+// routes/contact.js
 const express = require('express');
 const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
-const { sendContactEmail } = require('./utils/mailer');
-require('./db'); // Ensure DB connection is established
+const { sendContactEmail } = require('../utils/mailer'); // Updated path
+require('../config/db'); // Updated path - Ensure DB connection is established
 
 const contactSchema = new mongoose.Schema({
   FirstName: {
@@ -59,12 +59,24 @@ const validateContact = [
   body('Message').trim().isLength({ min: 10 }).escape()
 ];
 
+// GET route for testing
+router.get('/', (req, res) => {
+  res.json({ message: 'Contact API is working!' });
+});
+
+// POST route for contact form
 router.post('/', validateContact, async (req, res) => {
   try {
+    console.log('Contact form submission received:', req.body);
+    
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      console.log('Validation errors:', errors.array());
+      return res.status(400).json({ 
+        success: false,
+        errors: errors.array() 
+      });
     }
 
     const { FirstName, LastName, Email, Phone, HackerrankId, Message } = req.body;
@@ -80,10 +92,12 @@ router.post('/', validateContact, async (req, res) => {
     });
 
     await contact.save();
+    console.log('Contact saved successfully:', contact._id);
 
     // Send emails
     try {
       await sendContactEmail(contact);
+      console.log('Contact email sent successfully');
     } catch (emailError) {
       console.error('Error sending email:', emailError);
       // Don't fail the request if email fails
@@ -92,15 +106,24 @@ router.post('/', validateContact, async (req, res) => {
     res.status(201).json({ 
       success: true, 
       message: 'Message received successfully!',
-      data: { FirstName, LastName, Email, Phone, HackerrankId, Message }
+      data: { 
+        id: contact._id,
+        FirstName, 
+        LastName, 
+        Email, 
+        Phone, 
+        HackerrankId, 
+        Message 
+      }
     });
   } catch (err) {
     console.error('Contact form error:', err);
     res.status(500).json({ 
+      success: false,
       error: 'Server error',
-      message: process.env.NODE_ENV === 'development' ? err.message : undefined
+      message: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
     });
   }
 });
 
-module.exports = router; 
+module.exports = router;
