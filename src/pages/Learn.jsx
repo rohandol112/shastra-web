@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
+import { Navigation, Autoplay, EffectFade } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/effect-fade";
 
 import YouTube from "../components/Card/LearnCard/Youtube"
 import Articles from "../components/Card/LearnCard/Articles"
@@ -21,37 +22,44 @@ const learningPDFs = [
     {
         topic: "Basic Programming",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Master the fundamentals of programming with our comprehensive guide."
     },
     {
         topic: "Dynamic Programming",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: DynamicProgrammingImg
+        image: DynamicProgrammingImg,
+        description: "Learn advanced problem-solving techniques with dynamic programming."
     },
     {
         topic: "Greedy Algorithms",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: GreedyAlgorithmsImg
+        image: GreedyAlgorithmsImg,
+        description: "Understand greedy algorithms and their applications in problem-solving."
     },
     {
         topic: "Linked Lists",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: LinkedListImg
+        image: LinkedListImg,
+        description: "Explore linked list data structures and their implementations."
     },
     {
         topic: "OOPS",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: OOPSImg
+        image: OOPSImg,
+        description: "Master Object-Oriented Programming concepts and principles."
     },
     {
         topic: "Stacks & Queue",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: StacksImg
+        image: StacksImg,
+        description: "Learn about stack and queue data structures and their applications."
     },
     {
         topic: "Trees",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: TreesImg
+        image: TreesImg,
+        description: "Understand tree data structures and their various implementations."
     },
 ];
 
@@ -59,56 +67,66 @@ const prerequisites = [
     {
         name: "Arrays",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Master array operations and common algorithms."
     },
     {
         name: "Bit Manipulation",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Learn efficient bit manipulation techniques."
     },
     {
         name: "Dynamic Programming",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: DynamicProgrammingImg
+        image: DynamicProgrammingImg,
+        description: "Advanced problem-solving with dynamic programming."
     },
     {
         name: "Graphs",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: TreesImg
+        image: TreesImg,
+        description: "Understand graph theory and algorithms."
     },
     {
         name: "Greedy Algorithms",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: GreedyAlgorithmsImg
+        image: GreedyAlgorithmsImg,
+        description: "Learn greedy approach to problem-solving."
     },
     {
         name: "Maths in DSA",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Mathematical concepts in data structures and algorithms."
     },
     {
-        name: "Number Theory and Maths",
+        name: "Number Theory",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Essential number theory concepts for competitive programming."
     },
     {
         name: "Sliding Windows",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Master the sliding window technique for array problems."
     },
     {
         name: "String",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "String manipulation and pattern matching algorithms."
     },
     {
         name: "Two Pointer",
         link: "https://drive.google.com/drive/folders/1nvlZd20vDmFb6cWcig3B7Ae3cSZ8PEtB?usp=sharing",
-        image: BasicProgrammingImg
+        image: BasicProgrammingImg,
+        description: "Efficient array processing with two pointer technique."
     },
 ];
 
-export default function () {
+export default function Learn() {
     const [youtube, setYoutube] = useState([])
     const [articles, setArticles] = useState([])
 
@@ -130,84 +148,108 @@ export default function () {
     }
     
     return (
-    <div className="relative z-10 min-h-[100%] ">
+        <div className="relative z-10 min-h-[100%] bg-white py-20">
+            <div className="container mx-auto px-4">
+                <YouTube 
+                    youtube={youtube}
+                    handleClick={handleClick}
+                />
 
-        <YouTube 
-            youtube={youtube}
-            handleClick={handleClick}
-        />
-
-        <div className="my-10 flex flex-col">
-            <h1 className="uppercase mb-8 self-center font-bold md:text-xl text-[#0057ff]">Learning PDFs</h1>
-            <Swiper
-                spaceBetween={32}
-                navigation={true}
-                modules={[Navigation]}
-                breakpoints={{
-                    320: { slidesPerView: 1 },
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }}
-                className="w-full rounded-xl py-4"
-            >
-                {learningPDFs.map((pdf, idx) => (
-                    <SwiperSlide key={pdf.topic} className="flex flex-col items-center">
-                        <a
-                            href={pdf.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group bg-[#232946] border-2 border-[#0057ff] rounded-2xl shadow-lg flex flex-col items-center hover:shadow-2xl hover:border-[#ff9100] transition-all duration-300 overflow-hidden w-72 mx-auto"
+                <div className="my-16 bg-[#232946] rounded-2xl shadow-xl p-8">
+                    <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 text-white">Learning Resources</h1>
+                    <p className="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                        Explore our comprehensive collection of learning materials, from basic concepts to advanced topics.
+                    </p>
+                    
+                    <div className="mb-20">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-[#0057ff]">Learning PDFs</h2>
+                        <Swiper
+                            spaceBetween={32}
+                            navigation={true}
+                            autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[Navigation, Autoplay]}
+                            breakpoints={{
+                                320: { slidesPerView: 1 },
+                                640: { slidesPerView: 2 },
+                                1024: { slidesPerView: 3 },
+                            }}
+                            className="w-full rounded-xl py-4"
                         >
-                            <img
-                                src={pdf.image}
-                                alt={pdf.topic + ' thumbnail'}
-                                className="w-full h-40 object-cover bg-[#121629] group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div className="flex-1 w-full flex flex-col justify-between p-5 bg-[#121629]">
-                                <span className="text-white font-bold text-lg mb-2 text-center group-hover:text-[#ff9100] transition-colors">{pdf.topic}</span>
-                                <span className="mt-2 text-center text-xs text-[#ff9100] font-semibold group-hover:text-[#0057ff] transition-colors">View PDFs →</span>
-                            </div>
-                        </a>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
+                            {learningPDFs.map((pdf) => (
+                                <SwiperSlide key={pdf.topic} className="flex flex-col items-center">
+                                    <a
+                                        href={pdf.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group bg-[#1A1A1A] rounded-2xl shadow-lg flex flex-col items-center hover:shadow-2xl transition-all duration-300 overflow-hidden w-full mx-auto transform hover:-translate-y-2"
+                                    >
+                                        <div className="relative w-full h-48 overflow-hidden">
+                                            <img
+                                                src={pdf.image}
+                                                alt={pdf.topic + ' thumbnail'}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        </div>
+                                        <div className="p-6 w-full">
+                                            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#0057ff] transition-colors">{pdf.topic}</h3>
+                                            <p className="text-gray-400 text-sm mb-4">{pdf.description}</p>
+                                            <span className="inline-block text-[#0057ff] font-semibold group-hover:translate-x-2 transition-transform">View PDFs →</span>
+                                        </div>
+                                    </a>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
 
-        <div className="my-10 flex flex-col">
-            <h1 className="uppercase mb-8 self-center font-bold md:text-xl text-[#ff9100]">Prerequisites</h1>
-            <Swiper
-                spaceBetween={32}
-                navigation={true}
-                modules={[Navigation]}
-                breakpoints={{
-                    320: { slidesPerView: 1 },
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }}
-                className="w-full rounded-xl py-4"
-            >
-                {prerequisites.map((item, idx) => (
-                    <SwiperSlide key={item.name} className="flex flex-col items-center">
-                        <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group bg-[#232946] border-2 border-[#ff9100] rounded-2xl shadow-lg flex flex-col items-center hover:shadow-2xl hover:border-[#0057ff] transition-all duration-300 overflow-hidden w-72 mx-auto"
+                    <div className="mt-20">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-[#ff9100]">Prerequisites</h2>
+                        <Swiper
+                            spaceBetween={32}
+                            navigation={true}
+                            autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[Navigation, Autoplay]}
+                            breakpoints={{
+                                320: { slidesPerView: 1 },
+                                640: { slidesPerView: 2 },
+                                1024: { slidesPerView: 3 },
+                            }}
+                            className="w-full rounded-xl py-4"
                         >
-                            <img
-                                src={item.image}
-                                alt={item.name + ' thumbnail'}
-                                className="w-full h-40 object-cover bg-[#121629] group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div className="flex-1 w-full flex flex-col justify-between p-5 bg-[#121629]">
-                                <span className="text-white font-bold text-lg mb-2 text-center group-hover:text-[#ff9100] transition-colors">{item.name}</span>
-                                <span className="mt-2 text-center text-xs text-[#ff9100] font-semibold group-hover:text-[#0057ff] transition-colors">View PDFs →</span>
-                            </div>
-                        </a>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+                            {prerequisites.map((item) => (
+                                <SwiperSlide key={item.name} className="flex flex-col items-center">
+                                    <a
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group bg-[#1A1A1A] rounded-2xl shadow-lg flex flex-col items-center hover:shadow-2xl transition-all duration-300 overflow-hidden w-full mx-auto transform hover:-translate-y-2"
+                                    >
+                                        <div className="relative w-full h-48 overflow-hidden">
+                                            <img
+                                                src={item.image}
+                                                alt={item.name + ' thumbnail'}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        </div>
+                                        <div className="p-6 w-full">
+                                            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#ff9100] transition-colors">{item.name}</h3>
+                                            <p className="text-gray-400 text-sm mb-4">{item.description}</p>
+                                            <span className="inline-block text-[#ff9100] font-semibold group-hover:translate-x-2 transition-transform">View PDFs →</span>
+                                        </div>
+                                    </a>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
     )
 }

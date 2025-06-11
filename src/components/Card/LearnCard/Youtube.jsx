@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation } from "swiper"
 import { motion } from "framer-motion"
@@ -14,6 +14,8 @@ export default function YouTube({ handleClick }) {
     const [videos, setVideos] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const prevRef = useRef(null)
+    const nextRef = useRef(null)
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -139,53 +141,76 @@ export default function YouTube({ handleClick }) {
                     </motion.span>
                 </motion.a>
             </div>
-            <Swiper 
-                spaceBetween={32}
-                navigation={true}
-                modules={[Navigation]}
-                breakpoints={breakpoints}
-                className="w-full rounded-xl py-4"
-            >
-                {videos.map((video, index) => (
-                    <SwiperSlide 
-                        key={video.id} 
-                        className="flex flex-col items-center"
-                    >
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-[#232946] border-2 border-[#0057ff] rounded-2xl shadow-lg overflow-hidden w-72 cursor-pointer group hover:shadow-2xl transition-shadow duration-300"
-                            onClick={() => handleVideoClick(video)}
-                            whileHover={{ scale: 1.04 }}
-                            whileTap={{ scale: 0.98 }}
+            <div className="relative w-full flex items-center">
+                <button ref={prevRef} className="yt-custom-prev yt-arrow-btn absolute left-0 top-1/2 -translate-y-1/2 z-20" aria-label="Previous">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="16" fill="currentColor"/>
+                        <path d="M19.5 24L12.5 16L19.5 8" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </button>
+                <Swiper 
+                    spaceBetween={32}
+                    navigation={{
+                        prevEl: prevRef.current,
+                        nextEl: nextRef.current,
+                    }}
+                    onInit={(swiper) => {
+                        swiper.params.navigation.prevEl = prevRef.current;
+                        swiper.params.navigation.nextEl = nextRef.current;
+                        swiper.navigation.init();
+                        swiper.navigation.update();
+                    }}
+                    modules={[Navigation]}
+                    breakpoints={breakpoints}
+                    className="w-full rounded-xl py-4"
+                >
+                    {videos.map((video, index) => (
+                        <SwiperSlide 
+                            key={video.id} 
+                            className="flex flex-col items-center"
                         >
-                            <div className="relative">
-                                <img 
-                                    src={video.image} 
-                                    className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-300 bg-[#121629]"
-                                    alt={video.title}
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="bg-[#ff9100] bg-opacity-90 rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z"/>
-                                        </svg>
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="bg-[#232946] border-2 border-[#0057ff] rounded-2xl shadow-lg overflow-hidden w-72 cursor-pointer group hover:shadow-2xl transition-shadow duration-300"
+                                onClick={() => handleVideoClick(video)}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <div className="relative">
+                                    <img 
+                                        src={video.image} 
+                                        className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-300 bg-[#121629]"
+                                        alt={video.title}
+                                    />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="bg-[#ff9100] bg-opacity-90 rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                            <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="bg-[#121629] p-4 flex flex-col gap-2 border-t-2 border-[#0057ff]">
-                                <h3 className="text-white text-base font-bold line-clamp-2 mb-1 tracking-tight">
-                                    {video.title}
-                                </h3>
-                                <p className="text-[#ff9100] text-xs font-semibold">
-                                    {formatDate(video.uploadDate)}
-                                </p>
-                            </div>
-                        </motion.div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>   
+                                <div className="bg-[#121629] p-4 flex flex-col gap-2 border-t-2 border-[#0057ff]">
+                                    <h3 className="text-white text-base font-bold line-clamp-2 mb-1 tracking-tight">
+                                        {video.title}
+                                    </h3>
+                                    <p className="text-[#ff9100] text-xs font-semibold">
+                                        {formatDate(video.uploadDate)}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <button ref={nextRef} className="yt-custom-next yt-arrow-btn absolute right-0 top-1/2 -translate-y-1/2 z-20" aria-label="Next">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="16" fill="currentColor"/>
+                        <path d="M12.5 8L19.5 16L12.5 24" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </motion.div>
     )
 }

@@ -17,7 +17,7 @@
 
     .gradient-txt { @apply text-transparent bg-clip-text bg-gradient-to-r from-[#030B98] from-[16.16%] to-[#FF9201] to-[43.13%]; }
 
-    .faq-btn { @apply absolute right-0 inline-block text-3xl md:text-5xl text-pri-blueDark cursor-pointer hover:scale-105 duration-200 -translate-y-2; }
+    .faq-btn { @apply absolute right-0 inline-block text-3xl md:text-5xl text-pri-blueDark  cursor-pointer hover:scale-105  duration-200 -translate-y-2 ; }
 
     .input-box { @apply rounded-lg appearance-none w-40 indent-2 border-2 focus:bg-orange-200 bg-orange-100; } 
 
@@ -26,11 +26,7 @@
     .team-card { @apply grid grid-cols-4 md:grid-cols-8 gap-5 sm:gap-10 mx-3 self-center p-5 md:p-10 bg-gradient-to-br from-[#ffffff14] to-[#ffffff00] backdrop-blur-[10px] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-xl; }
 }
 
-body, html { 
-    max-height: 100vh; 
-    max-width: 100vw;
-    scroll-behavior: smooth;
-}
+body, html { max-height: 100vh; max-width: 100vw; }
 
 .horizontal--scroller::-webkit-scrollbar { height: 10px; }
 
@@ -40,7 +36,7 @@ body, html {
 
 .horizontal--scroller::-webkit-scrollbar-thumb {
     background: gray;
-    border-radius: 0.75rem;
+    border-radius: 0.75rem ;
 }
 
 .linkedin-container:hover .linkedin, .linkedin-container:focus .linkedin { opacity: 1; top: 0; } 
@@ -55,4 +51,30 @@ body, html {
 
 @media (max-width: 768px) {
     .team--core-grid > div:last-child { grid-column-start: 2; }
+}
+
+.custom-youtube-arrow {
+  width: 44px;
+  height: 44px;
+  background: #232946;
+  color: #ff9100;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  z-index: 10;
+}
+.custom-youtube-arrow:hover {
+  background: #ff9100;
+  color: #232946;
+  transform: scale(1.1);
+}
+.youtube-swiper-button-next::after,
+.youtube-swiper-button-prev::after {
+  font-size: 2rem;
+  font-weight: bold;
 }

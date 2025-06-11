@@ -1,14 +1,33 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGODB_URI, {
-  // useNewUrlParser and useUnifiedTopology are not needed in Mongoose 6+
-});
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/shastra';
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
+
+db.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
 });
+
+db.on('disconnected', () => {
+  console.log('MongoDB disconnected. Attempting to reconnect...');
+  connectDB();
+});
+
+// Initial connection
+connectDB();
 
 module.exports = db; 
