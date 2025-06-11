@@ -59,7 +59,7 @@ const validateContact = [
   body('Message').trim().isLength({ min: 10 }).escape()
 ];
 
-router.post('/contact', validateContact, async (req, res) => {
+router.post('/', validateContact, async (req, res) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
