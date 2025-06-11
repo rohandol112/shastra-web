@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const contactRouter = require('./contact');
 const eventsRouter = require('./eventsApi');
-const path = require('path');
 
 const app = express();
 
@@ -34,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }));
 // Routes
 app.use('/api', contactRouter);
 app.use('/api', eventsRouter);
-app.use('/api/contact', contactRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -48,12 +46,6 @@ app.use((err, req, res, next) => {
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
-});
-
-// Serve frontend (if needed)
-app.use(express.static(path.join(__dirname, 'dist')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
