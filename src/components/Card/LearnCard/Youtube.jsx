@@ -16,6 +16,7 @@ export default function YouTube({ handleClick }) {
     const [error, setError] = useState(null)
     const prevRef = useRef(null)
     const nextRef = useRef(null)
+    const [swiperInstance, setSwiperInstance] = useState(null);
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -46,6 +47,21 @@ export default function YouTube({ handleClick }) {
 
         fetchVideos()
     }, [])
+
+    useEffect(() => {
+      if (
+        swiperInstance &&
+        prevRef.current &&
+        nextRef.current &&
+        swiperInstance.params.navigation
+      ) {
+        swiperInstance.params.navigation.prevEl = prevRef.current;
+        swiperInstance.params.navigation.nextEl = nextRef.current;
+        swiperInstance.navigation.destroy();
+        swiperInstance.navigation.init();
+        swiperInstance.navigation.update();
+      }
+    }, [swiperInstance, prevRef, nextRef]);
 
     const breakpoints = {
         320: {  
@@ -154,12 +170,11 @@ export default function YouTube({ handleClick }) {
                         prevEl: prevRef.current,
                         nextEl: nextRef.current,
                     }}
-                    onInit={(swiper) => {
+                    onBeforeInit={(swiper) => {
                         swiper.params.navigation.prevEl = prevRef.current;
                         swiper.params.navigation.nextEl = nextRef.current;
-                        swiper.navigation.init();
-                        swiper.navigation.update();
                     }}
+                    onSwiper={setSwiperInstance}
                     modules={[Navigation]}
                     breakpoints={breakpoints}
                     className="w-full rounded-xl py-4"

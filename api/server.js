@@ -32,8 +32,8 @@ app.use(bodyParser.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }));
 
 // Routes
-app.use('/api', contactRouter);
-app.use('/api', eventsRouter);
+app.use('/api/contact', contactRouter);
+app.use('/api/events', eventsRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

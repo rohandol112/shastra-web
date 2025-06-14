@@ -1,12 +1,9 @@
 import React from "react"
 import { motion } from "framer-motion"
 
-const EventCard = ({ name, criteria, image, link, date, time, description }) => {
+const EventCard = ({ name, criteria, image, date, time, description }) => {
     return (
-        <motion.a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
+        <motion.div
             className="block bg-[#1A1A1A] rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:transform hover:scale-105"
             whileHover={{ y: -5 }}
         >
@@ -30,7 +27,7 @@ const EventCard = ({ name, criteria, image, link, date, time, description }) => 
                     )}
                 </div>
             </div>
-        </motion.a>
+        </motion.div>
     )
 }
 

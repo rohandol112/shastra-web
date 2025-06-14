@@ -42,7 +42,7 @@ export default function Footer() {
 
                 <span className="flex flex-row justify-between text-black">
                     <a href="https://www.linkedin.com/company/tcet-shastra-coding-club/" target="_blank" rel="noopener noreferrer" className="w-max h-max"><LinkedIn /></a>
-                    <a href="https://www.instagram.com/tcetshastra/" target="_blank" rel="noopener noreferrer" className="w-max h-max"><Instagram /></a>
+                    <a href="https://www.instagram.com/tcet_shastra/" target="_blank" rel="noopener noreferrer" className="w-max h-max"><Instagram /></a>
                     <a href="https://www.youtube.com/@tcetsshastra-codingclub5841" target="_blank" rel="noopener noreferrer" className="w-max h-max"><YouTube /></a>
                 </span>
 
